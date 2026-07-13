@@ -1,3 +1,54 @@
+# Learning to Make Better Decisions: A Reinforcement Learning Simulation of Human Reward-Based Learning
+
+## Overview
+
+This project implements a simple **reinforcement learning (RL)** simulation — a type of machine learning where an agent learns by trial and error, receiving rewards or feedback for its actions rather than being told the "correct answer" directly (unlike most standard machine learning, which learns from labeled examples).
+
+The simulation models a classic problem called a **multi-armed bandit task**: imagine a row of slot machines, each with a different, unknown average payout. An agent repeatedly chooses among them, receives a reward each time, and must figure out — purely from experience — which machine is best. This is one of the simplest possible settings in reinforcement learning, and it captures the core challenge of learning under uncertainty.
+
+## Motivation
+
+This project explores the computational principles behind reward-based learning and decision-making: how an agent builds and updates beliefs about the value of its choices, and how it balances **exploration** (trying new, uncertain options to gather information) against **exploitation** (choosing the option that currently seems best).
+
+The learning rule used here is directly related to the **Rescorla-Wagner model**, a foundational theory of associative learning in psychology. It updates beliefs based on a **prediction error** — the gap between the reward an agent expected and the reward it actually received. This same mathematical idea underlies both classical learning theory and modern reinforcement learning algorithms, which is what makes this simple simulation a meaningful bridge between the two fields.
+
+This project was built ahead of joining the **Learning and Decision Neuroscience Lab** at UC Irvine, directed by Dr. Mimi Liljeholm, whose research examines how humans discover and represent the predictive structure of their environment and how that shapes decision-making.
+
+## Project Structure
+reinforcement-learning-decision-making/
+│
+├── README.md
+├── requirements.txt
+│
+├── src/
+│   ├── environment.py        # Defines the bandit task (the "world" the agent acts in)
+│   ├── agent.py               # The learning agent (epsilon-greedy Q-learning)
+│   ├── simulation.py          # Runs one agent through many trials, logs results
+│   ├── plot_results.py        # Generates learning curve and Q-value plots
+│   ├── compare_agents.py      # Runs the simulation across multiple exploration rates
+│   └── plot_comparison.py     # Plots learning curves across exploration rates
+│
+└── results/
+├── simulation_results.csv
+├── agent_comparison.csv
+├── learning_curve.png
+├── q_convergence.png
+├── action_frequency.png
+└── epsilon_comparison.png
+
+## How It Works
+
+**Environment (`environment.py`)**
+Defines the task itself, separate from whoever is making decisions in it. It stores the *true* average reward of each arm (hidden from the agent) and, each time the agent picks an arm, returns a reward sampled from a normal (bell-curve) distribution centered on that arm's true value. This models the fact that real-world outcomes are noisy — even a good choice doesn't give exactly the same reward every time.
+
+**Agent (`agent.py`)**
+The learner. It keeps a running estimate of each arm's value (called a **Q-value**, starting at zero for all arms — the agent begins knowing nothing). It chooses actions using an **epsilon-greedy policy**:
+- Most of the time, it picks whichever arm currently looks best (**exploitation**).
+- With a small probability, called **epsilon**, it picks a random arm instead (**exploration**), so it doesn't miss out on discovering a better option.
+
+After each choice, it updates its belief using this rule:
+Q(a) ← Q(a) + α × (reward − Q(a))
+
 Here, α (alpha) is the **learning rate** — how much each new experience shifts the belief — and `(reward − Q(a))` is the **prediction error**: how far off the agent's expectation was. This single equation is the entire "learning" in this project.
 
 **Simulation (`simulation.py`)**
