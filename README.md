@@ -15,6 +15,8 @@ The learning rule used here is directly related to the **Rescorla-Wagner model**
 This project was built ahead of joining the **Learning and Decision Neuroscience Lab** at UC Irvine, directed by Dr. Mimi Liljeholm, whose research examines how humans discover and represent the predictive structure of their environment and how that shapes decision-making.
 
 ## Project Structure
+
+```
 reinforcement-learning-decision-making/
 │
 ├── README.md
@@ -29,13 +31,13 @@ reinforcement-learning-decision-making/
 │   └── plot_comparison.py     # Plots learning curves across exploration rates
 │
 └── results/
-├── simulation_results.csv
-├── agent_comparison.csv
-├── learning_curve.png
-├── q_convergence.png
-├── action_frequency.png
-└── epsilon_comparison.png
-
+    ├── simulation_results.csv
+    ├── agent_comparison.csv
+    ├── learning_curve.png
+    ├── q_convergence.png
+    ├── action_frequency.png
+    └── epsilon_comparison.png
+```
 ## How It Works
 
 **Environment (`environment.py`)**
